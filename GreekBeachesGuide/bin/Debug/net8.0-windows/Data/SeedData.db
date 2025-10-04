@@ -1,0 +1,43 @@
+﻿-- Πίνακες
+CREATE TABLE IF NOT EXISTS Users (
+  Id INTEGER PRIMARY KEY AUTOINCREMENT,
+  Username TEXT UNIQUE NOT NULL,
+  Password TEXT NOT NULL,
+  Role TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS Beaches (
+  Id INTEGER PRIMARY KEY AUTOINCREMENT,
+  Name TEXT NOT NULL,
+  Region TEXT NOT NULL,
+  Description TEXT NOT NULL,
+  Features TEXT,
+  ImagePath TEXT,
+  AudioPath TEXT,
+  VideoPath TEXT,
+  Rating INTEGER DEFAULT 0,
+  IsTop INTEGER DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS History (
+  Id INTEGER PRIMARY KEY AUTOINCREMENT,
+  Username TEXT,
+  BeachId INTEGER,
+  ViewedAt TEXT
+);
+
+-- Χρήστες (login)
+INSERT OR IGNORE INTO Users(Username,Password,Role) VALUES
+('demo','1234','User'),
+('user','1234','User');
+
+-- Παραλίες
+INSERT INTO Beaches (Name,Region,Description,Features,ImagePath,AudioPath,IsTop) VALUES
+('Ναυάγιο','Ζάκυνθος','Εμβληματική παραλία με ναυάγιο. Κατάλληλη για φωτογραφίες.','θέα, άμμος, instagram','Data/Images/navagio.jpg','Data/Media/waves.mp3',1),
+('Ελαφονήσι','Χανιά, Κρήτη','Ροζ άμμος, ρηχά νερά, προστατευόμενη περιοχή.','άμμος, οικογενειακή, ρηχά','Data/Images/elafonissi.jpg','Data/Media/waves.mp3',1),
+('Μύρτος','Κεφαλονιά','Τουρκουάζ νερά, βότσαλο, έντονο βάθος.','βότσαλο, θέα','Data/Images/myrtos.jpg','Data/Media/waves.mp3',1),
+('Πόρτο Κατσίκι','Λευκάδα','Απόκρημνοι βράχοι, καθαρά νερά.','βράχοι, θέα','Data/Images/porto_katsiki.jpg','Data/Media/waves.mp3',1),
+('Σαρακήνικο','Μήλος','Σεληνιακό τοπίο, λευκοί βράχοι.','βράχοι, φωτογραφίες','Data/Images/sarakiniko.jpg','Data/Media/waves.mp3',1),
+('Κολυμπήθρες','Πάρος','Γλυπτοί γρανίτες, ρηχά νερά.','ρηχά, οικογενειακή','Data/Images/kolymbithres.jpg','Data/Media/waves.mp3',0),
+('Βάι','Λασηθίου, Κρήτη','Φοινικόδασος, εξωτική αίσθηση.','φοινικόδασος, άμμος','Data/Images/vai.jpg','Data/Media/waves.mp3',0),
+('Σεϊτάν Λιμάνια','Χανιά, Κρήτη','Στενό φιόρδ, τιρκουάζ νερά.','instagram, βράχοι','Data/Images/seitan.jpg','Data/Media/waves.mp3',0),
+('Μπάλος','Χανιά, Κρήτη','Λιμνοθάλασσα με ροζ άμμο.','άμμος, ρηχά','Data/Images/balos.jpg','Data/Media/waves.mp3',1),
+('Παραδείσι','Ρόδος','Χρυσή άμμος, οργανωμένη.','άμμος, οργανωμένη','Data/Images/paradisi.jpg','Data/Media/waves.mp3',0);
