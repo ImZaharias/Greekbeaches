@@ -53,7 +53,6 @@
             pbPreview = new PictureBox();
             contextMenuStrip = new ContextMenuStrip(components);
             tmrSlide = new System.Windows.Forms.Timer(components);
-            button1 = new Button();
             menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -147,7 +146,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(button1);
             splitContainer1.Panel2.Controls.Add(rtbDescription);
             splitContainer1.Panel2.Controls.Add(lblRegion);
             splitContainer1.Panel2.Controls.Add(lblName);
@@ -283,15 +281,7 @@
             // 
             tmrSlide.Interval = 3000;
             tmrSlide.Tick += tmrSlide_Tick_1;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(158, 185);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 4;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+
             // 
             // FormMain
             // 
@@ -342,6 +332,5 @@
         private Button btnSlideshow;
         private Button btnTTSPlay;
         private System.Windows.Forms.Timer tmrSlide;
-        private Button button1;
     }
 }

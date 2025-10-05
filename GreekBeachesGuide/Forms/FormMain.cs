@@ -174,13 +174,36 @@ namespace GreekBeachesGuide.Forms
         private void btnSlideshow_Click_1(object sender, EventArgs e)
         {
             if (_current.Count == 0) { MessageBox.Show("Δεν υπάρχουν παραλίες."); return; }
+
+            // Toggle slideshow
             tmrSlide.Enabled = !tmrSlide.Enabled;
+
+            // Update button text
+            btnSlideshow.Text = tmrSlide.Enabled ? "Διακοπή προβολής" : "Προβολή διαφανειών";
+
+            // Start from current selection if starting slideshow
+            if (tmrSlide.Enabled && lvBeaches.SelectedIndices.Count > 0)
+            {
+                _slideIndex = lvBeaches.SelectedIndices[0];
+            }
         }
 
         private void tmrSlide_Tick_1(object sender, EventArgs e)
         {
-            if (_current.Count == 0) return;
+            if (_current.Count == 0)
+            {
+                tmrSlide.Enabled = false;
+                btnSlideshow.Text = "Προβολή διαφανειών";
+                return;
+            }
+
             _slideIndex = (_slideIndex + 1) % _current.Count;
+
+            // Update ListView selection
+            lvBeaches.SelectedIndices.Clear();
+            lvBeaches.Items[_slideIndex].Selected = true;
+            lvBeaches.Items[_slideIndex].EnsureVisible();
+
             ShowPreview(_current[_slideIndex]);
         }
 
@@ -217,6 +240,13 @@ $@"Όνομα: {b.Name}
         {
             if (lvBeaches.SelectedItems.Count == 0) return;
             var b = (Beach)lvBeaches.SelectedItems[0].Tag;
+
+            // Update slideshow index if manually selecting
+            if (!tmrSlide.Enabled)
+            {
+                _slideIndex = lvBeaches.SelectedIndices[0];
+            }
+
             ShowPreview(b);
         }
 

@@ -139,11 +139,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
+      "projectUniqueName": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\Greekbeaches\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
       "projectName": "GreekBeachesGuide",
-      "projectPath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
+      "projectPath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\Greekbeaches\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
       "packagesPath": "C:\\Users\\zahos\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\GreekBeachesGuide\\obj\\",
+      "outputPath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\Greekbeaches\\GreekBeachesGuide\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -15,11 +15,21 @@ namespace GreekBeachesGuide
             Application.ThreadException += (s, e) => LogCrash(e.Exception);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => LogCrash(e.ExceptionObject as Exception);
 
-            // DB init
-            try { Db.EnsureCreated(); }
-            catch (Exception ex) { MessageBox.Show("DB init error: " + ex.Message); }
+            // ΠΡΩΤΑ: DB init - ΠΡΙΝ ανοίξει οποιαδήποτε φόρμα
+            try
+            {
+                Db.EnsureCreated();
+                MessageBox.Show($"Βάση δημιουργήθηκε στο:\n{Db.DbPath}\n\nΠαραλίες: {Db.SearchBeaches("").Count}",
+                    "Debug Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"ΚΡΙΣΙΜΟ ΣΦΑΛΜΑ:\n{ex.Message}\n\nStack:\n{ex.StackTrace}",
+                    "Σφάλμα DB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Σταμάτα την εφαρμογή
+            }
 
-            // Start με Login
+            // ΜΕΤΑ: Άνοιξε το Login
             Application.Run(new FormLogin());
         }
 

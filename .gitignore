@@ -1,0 +1,42 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# Generated files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.dbmdl
+*.db
+*.bak
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+
+# Others
+_ReSharper*/
+*.DotSettings.user
+*.vsix
+*.swp
+*.tmp
+
+# OS junk
+[Dd]esktop.ini
+[Tt]humbs.db
+ehthumbs.db

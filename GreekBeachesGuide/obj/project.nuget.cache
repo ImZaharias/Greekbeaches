@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OSoAOjKPZqA=",
+  "dgSpecHash": "TOWJHzex7p0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
+  "projectFilePath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\Greekbeaches\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zahos\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
     "C:\\Users\\zahos\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512",
