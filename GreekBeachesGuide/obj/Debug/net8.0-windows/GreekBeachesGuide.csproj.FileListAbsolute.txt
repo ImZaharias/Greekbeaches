@@ -8,8 +8,8 @@ C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debu
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\Data\Images\sarakiniko.jpg
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\Data\Images\seitan.jpg
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\Data\Images\vai.jpg
-C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\Data\Media\waves.wan
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\GreekBeachesGuide.exe
+C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\Data\Media\waves.wav
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\GreekBeachesGuide.deps.json
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\GreekBeachesGuide.runtimeconfig.json
 C:\Users\zahos\Desktop\GreekBeachesGuide\Greekbeaches\GreekBeachesGuide\bin\Debug\net8.0-windows\GreekBeachesGuide.dll

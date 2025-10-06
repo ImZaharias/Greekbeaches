@@ -13,6 +13,8 @@ namespace GreekBeachesGuide.Forms
     {
         private Beach _b;
         private readonly string _user;
+        private SoundPlayer _sp; // μία φορά στη φόρμα
+        private bool _isPlaying; // κατάσταση
 
         public FormBeachDetails()
         {
@@ -73,14 +75,31 @@ namespace GreekBeachesGuide.Forms
         {
             try
             {
-                var full = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _b?.AudioPath ?? "");
-                if (!File.Exists(full)) { MessageBox.Show("Δεν βρέθηκε αρχείο ήχου."); return; }
+                var full = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Media\waves.wav");
+                
+                if (!File.Exists(full))
+                {
+                    MessageBox.Show($"Δεν βρέθηκε αρχείο ήχου στο:\n{full}");
+                    return;
+                }
 
                 // ΣΗΜΑΝΤΙΚΟ: SoundPlayer παίζει μόνο .wav
                 if (Path.GetExtension(full).Equals(".wav", StringComparison.OrdinalIgnoreCase))
                 {
-                    using var sp = new SoundPlayer(full);
-                    sp.Play();
+                    // Αν παίζει, σταμάτα — αλλιώς ξεκίνα
+                    if (_isPlaying)
+                    {
+                        _sp?.Stop();
+                        _isPlaying = false;
+                        btnSound.Text = "Αναπαραγωγή";
+                    }
+                    else
+                    {
+                        _sp = new SoundPlayer(full);
+                        _sp.Play();
+                        _isPlaying = true;
+                        btnSound.Text = "Παύση";
+                    } 
                 }
                 else
                 {

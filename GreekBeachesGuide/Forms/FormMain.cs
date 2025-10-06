@@ -159,7 +159,20 @@ namespace GreekBeachesGuide.Forms
         }
 
         // ====== Buttons/Search ======
-        private void btnSearch_Click_1(object sender, EventArgs e) => LoadBeaches(txtSearch.Text);
+        private void btnSearch_Click_1(object sender, EventArgs e)
+        {
+            if (lvBeaches.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Επίλεξε μια παραλία πρώτα!");
+                return;
+            }
+
+            var b = (Beach)lvBeaches.SelectedItems[0].Tag;
+            using var f = new FormBeachDetails(b, _user);
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog(this);
+            _history.Add(b);
+        }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
@@ -252,12 +265,7 @@ $@"Όνομα: {b.Name}
 
         private void pbPreview_Click(object sender, EventArgs e)
         {
-            if (lvBeaches.SelectedItems.Count == 0) return;
-            var b = (Beach)lvBeaches.SelectedItems[0].Tag;
-            using var f = new FormBeachDetails(b, _user);
-            f.StartPosition = FormStartPosition.CenterParent;
-            f.ShowDialog(this);
-            _history.Add(b);
+            
         }
 
         private void rtbDescription_TextChanged(object sender, EventArgs e)
