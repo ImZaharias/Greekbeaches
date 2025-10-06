@@ -76,6 +76,12 @@ namespace GreekBeachesGuide.Forms
             this.Hide();
             main.Show();
         }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            using var f = new FormRegister();
+            f.ShowDialog(this);
+        }
     }
 }
 

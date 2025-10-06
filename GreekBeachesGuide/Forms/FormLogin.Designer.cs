@@ -34,6 +34,7 @@
             txtPass = new TextBox();
             btnLogin = new Button();
             btnGuest = new Button();
+            btnRegister = new Button();
             SuspendLayout();
             // 
             // lblUser
@@ -89,11 +90,23 @@
             btnGuest.UseVisualStyleBackColor = true;
             btnGuest.Click += btnGuest_Click;
             // 
+            // btnRegister
+            // 
+            btnRegister.Location = new Point(534, 46);
+            btnRegister.Name = "btnRegister";
+            btnRegister.RightToLeft = RightToLeft.No;
+            btnRegister.Size = new Size(112, 52);
+            btnRegister.TabIndex = 6;
+            btnRegister.Text = "Εγγραφή";
+            btnRegister.UseVisualStyleBackColor = true;
+            btnRegister.Click += btnRegister_Click;
+            // 
             // FormLogin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(748, 421);
+            Controls.Add(btnRegister);
             Controls.Add(btnGuest);
             Controls.Add(btnLogin);
             Controls.Add(txtPass);
@@ -114,5 +127,6 @@
         private TextBox txtPass;
         private Button btnLogin;
         private Button btnGuest;
+        private Button btnRegister;
     }
 }
