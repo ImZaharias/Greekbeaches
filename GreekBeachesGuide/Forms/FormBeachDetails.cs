@@ -20,9 +20,10 @@ namespace GreekBeachesGuide.Forms
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterParent;
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             richTextBox.ReadOnly = true;
         }
+
 
         // <-- ο παραμετρικός ctor πρέπει να κάνει chaining στο default
         internal FormBeachDetails(Beach b, string user) : this()

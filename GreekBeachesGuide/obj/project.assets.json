@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {
+    "net8.0-windows10.0.19041": {
       "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
         "type": "package",
         "compile": {
@@ -38,28 +38,6 @@
         "dependencies": {
           "Stub.System.Data.SQLite.Core.NetStandard": "[1.0.119]"
         }
-      },
-      "System.Speech/9.0.9": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/System.Speech.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/System.Speech.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net8.0/_._": {}
-        },
-        "runtimeTargets": {
-          "runtimes/win/lib/net8.0/System.Speech.dll": {
-            "assetType": "runtime",
-            "rid": "win"
-          }
-        }
       }
     }
   },
@@ -95,41 +73,11 @@
         "system.data.sqlite.core.1.0.119.nupkg.sha512",
         "system.data.sqlite.core.nuspec"
       ]
-    },
-    "System.Speech/9.0.9": {
-      "sha512": "EdLiIc6Fj1aRy0bdpEuIFDaZ2lRWZX5ldd+6wZjZiWRXJA3G6/kJM7B2X+S50H2nM2upGmyUv9RH9RXaAWTswA==",
-      "type": "package",
-      "path": "system.speech/9.0.9",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net8.0/_._",
-        "buildTransitive/netcoreapp2.0/System.Speech.targets",
-        "lib/net462/_._",
-        "lib/net8.0/System.Speech.dll",
-        "lib/net8.0/System.Speech.xml",
-        "lib/net9.0/System.Speech.dll",
-        "lib/net9.0/System.Speech.xml",
-        "lib/netstandard2.0/System.Speech.dll",
-        "lib/netstandard2.0/System.Speech.xml",
-        "runtimes/win/lib/net8.0/System.Speech.dll",
-        "runtimes/win/lib/net8.0/System.Speech.xml",
-        "runtimes/win/lib/net9.0/System.Speech.dll",
-        "runtimes/win/lib/net9.0/System.Speech.xml",
-        "system.speech.9.0.9.nupkg.sha512",
-        "system.speech.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": [
-      "System.Data.SQLite.Core >= 1.0.119",
-      "System.Speech >= 9.0.9"
+    "net8.0-windows10.0.19041": [
+      "System.Data.SQLite.Core >= 1.0.119"
     ]
   },
   "packageFolders": {
@@ -154,15 +102,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows"
+        "net8.0-windows10.0.19041.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
+        "net8.0-windows10.0.19041": {
+          "targetAlias": "net8.0-windows10.0.19041.0",
           "projectReferences": {}
         }
       },
@@ -179,16 +127,12 @@
       "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net8.0-windows7.0": {
-        "targetAlias": "net8.0-windows",
+      "net8.0-windows10.0.19041": {
+        "targetAlias": "net8.0-windows10.0.19041.0",
         "dependencies": {
           "System.Data.SQLite.Core": {
             "target": "Package",
             "version": "[1.0.119, )"
-          },
-          "System.Speech": {
-            "target": "Package",
-            "version": "[9.0.9, )"
           }
         },
         "imports": [
@@ -202,8 +146,17 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.Windows.SDK.NET.Ref",
+            "version": "[10.0.19041.54, 10.0.19041.54]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.Windows.SDK.NET.Ref.Windows": {
             "privateAssets": "all"
           },
           "Microsoft.WindowsDesktop.App.WindowsForms": {

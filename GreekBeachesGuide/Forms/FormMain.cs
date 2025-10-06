@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace GreekBeachesGuide.Forms
 {
@@ -46,6 +47,11 @@ namespace GreekBeachesGuide.Forms
             bool isVisitor = string.Equals(_role, "Visitor", StringComparison.OrdinalIgnoreCase);
             if (btnClearHistory != null) btnClearHistory.Visible = !isVisitor;
             // Τα βασικά μενού μένουν ορατά για όλους (Export/History/Help/About/Exit)
+            if (historyToolStripMenuItem != null) historyToolStripMenuItem.Visible = !isVisitor;
+
+            // menu
+            if (btnExport != null) btnExport.Visible = !isVisitor;
+            if (exportToolStripMenuItem != null) exportToolStripMenuItem.Visible = !isVisitor;
         }
 
         // ---- ListView Columns (μία φορά) ----
@@ -138,17 +144,23 @@ namespace GreekBeachesGuide.Forms
 
         private void historyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_history.Count == 0) { MessageBox.Show("Δεν υπάρχει ιστορικό."); return; }
-            var lines = _history.TakeLast(20).Select(x => $"{x.Name} — {x.Region}");
-            MessageBox.Show(string.Join(Environment.NewLine, lines), "Ιστορικό (τελευταία 20)");
-        }
+            try
+            {
+                var history = GetUserHistory();
+                if (history.Count == 0)
+                {
+                    MessageBox.Show("Δεν υπάρχει ιστορικό.");
+                    return;
+                }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            using var dlg = new FormHelp();
-            dlg.StartPosition = FormStartPosition.CenterParent;
-            dlg.ShowDialog(this);
+                var lines = history.Select(x => $"{x.ViewedAt:dd/MM/yyyy HH:mm} - {x.BeachName} ({x.Region})");
+                MessageBox.Show(string.Join(Environment.NewLine, lines),
+                    $"Ιστορικό χρήστη: {_user}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Σφάλμα ανάγνωσης ιστορικού: {ex.Message}");
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -180,7 +192,7 @@ namespace GreekBeachesGuide.Forms
                 LoadBeaches(txtSearch.Text);
         }
 
-        private void btnTTSPlay_Click_1(object sender, EventArgs e) => TtsService.Speak(rtbDescription.Text);
+        private void btnTTSPlay_Click_1(object sender, EventArgs e) => TtsService.SpeakAsync(rtbDescription.Text);
 
         private void btnTTSStop_Click_1(object sender, EventArgs e) => TtsService.Stop();
 
@@ -222,8 +234,23 @@ namespace GreekBeachesGuide.Forms
 
         private void btnClearHistory_Click(object sender, EventArgs e)
         {
-            _history.Clear();
-            MessageBox.Show("Καθαρίστηκε το ιστορικό.");
+            try
+    {
+                using (var con = new SQLiteConnection(Db.ConnStr))
+                {
+                    con.Open();
+                    using (var cmd = new SQLiteCommand("DELETE FROM History WHERE Username = @user", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user", _user);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Καθαρίστηκε το ιστορικό.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Σφάλμα: {ex.Message}");
+            }
         }
 
         private void btnExport_Click_1(object sender, EventArgs e) => DoExportSelected();
@@ -265,7 +292,42 @@ $@"Όνομα: {b.Name}
 
         private void pbPreview_Click(object sender, EventArgs e)
         {
-            
+            if (lvBeaches.SelectedItems.Count == 0) return;
+            var b = (Beach)lvBeaches.SelectedItems[0].Tag;
+            using var f = new FormBeachDetails(b, _user);
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog(this);
+           
+        }
+
+        private List<(DateTime ViewedAt, string BeachName, string Region)> GetUserHistory()
+        {
+            var list = new List<(DateTime, string, string)>();
+            using (var con = new SQLiteConnection(Db.ConnStr))
+            {
+                con.Open();
+                var sql = @"
+            SELECT h.ViewedAt, b.Name, b.Region 
+            FROM History h
+            JOIN Beaches b ON h.BeachId = b.Id
+            WHERE h.Username = @user
+            ORDER BY h.ViewedAt DESC
+            LIMIT 20";
+
+                using (var cmd = new SQLiteCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@user", _user);
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            var dt = DateTime.Parse(r["ViewedAt"].ToString());
+                            list.Add((dt, r["Name"].ToString(), r["Region"].ToString()));
+                        }
+                    }
+                }
+            }
+            return list;
         }
 
         private void rtbDescription_TextChanged(object sender, EventArgs e)
@@ -273,6 +335,7 @@ $@"Όνομα: {b.Name}
             btnTTSPlay.Enabled = !string.IsNullOrWhiteSpace(rtbDescription.Text);
         }
 
+        
     }
 }
 

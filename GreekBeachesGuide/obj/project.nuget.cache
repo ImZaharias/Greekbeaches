@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "TOWJHzex7p0=",
+  "dgSpecHash": "EN37rWe14pA=",
   "success": true,
   "projectFilePath": "C:\\Users\\zahos\\Desktop\\GreekBeachesGuide\\Greekbeaches\\GreekBeachesGuide\\GreekBeachesGuide.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zahos\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
     "C:\\Users\\zahos\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512",
-    "C:\\Users\\zahos\\.nuget\\packages\\system.speech\\9.0.9\\system.speech.9.0.9.nupkg.sha512"
+    "C:\\Users\\zahos\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.54\\microsoft.windows.sdk.net.ref.10.0.19041.54.nupkg.sha512"
   ],
   "logs": []
 }

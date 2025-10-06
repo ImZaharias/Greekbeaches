@@ -38,21 +38,22 @@
             // 
             pictureBox.Location = new Point(35, 47);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(1149, 473);
+            pictureBox.Size = new Size(1633, 700);
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox.TabIndex = 0;
             pictureBox.TabStop = false;
             // 
             // richTextBox
             // 
-            richTextBox.Location = new Point(35, 554);
+            richTextBox.Location = new Point(35, 783);
             richTextBox.Name = "richTextBox";
-            richTextBox.Size = new Size(818, 157);
+            richTextBox.Size = new Size(694, 157);
             richTextBox.TabIndex = 1;
             richTextBox.Text = "";
             // 
             // btnSound
             // 
-            btnSound.Location = new Point(902, 554);
+            btnSound.Location = new Point(817, 783);
             btnSound.Name = "btnSound";
             btnSound.Size = new Size(165, 75);
             btnSound.TabIndex = 2;
@@ -64,7 +65,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1242, 729);
+            ClientSize = new Size(1695, 1004);
             Controls.Add(btnSound);
             Controls.Add(richTextBox);
             Controls.Add(pictureBox);

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GreekBeachesGuide")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ef31a0576240ab71bebfd01038a6b82453e56d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1adbae9bc0abe3b4e7f58cda88927c5c84d04660")]
 [assembly: System.Reflection.AssemblyProductAttribute("GreekBeachesGuide")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GreekBeachesGuide")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

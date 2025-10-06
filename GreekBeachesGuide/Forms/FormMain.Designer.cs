@@ -67,7 +67,7 @@
             menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, προβολήToolStripMenuItem, hpToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(1348, 33);
+            menuStrip.Size = new Size(1453, 33);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip";
             // 
@@ -118,7 +118,6 @@
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             helpToolStripMenuItem.Size = new Size(209, 34);
             helpToolStripMenuItem.Text = "Υποστήριξη";
-            helpToolStripMenuItem.Click += helpToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -150,15 +149,15 @@
             splitContainer1.Panel2.Controls.Add(lblRegion);
             splitContainer1.Panel2.Controls.Add(lblName);
             splitContainer1.Panel2.Controls.Add(pbPreview);
-            splitContainer1.Size = new Size(1348, 628);
-            splitContainer1.SplitterDistance = 448;
+            splitContainer1.Size = new Size(1453, 707);
+            splitContainer1.SplitterDistance = 482;
             splitContainer1.TabIndex = 1;
             // 
             // btnExport
             // 
-            btnExport.Location = new Point(206, 231);
+            btnExport.Location = new Point(200, 222);
             btnExport.Name = "btnExport";
-            btnExport.Size = new Size(210, 34);
+            btnExport.Size = new Size(210, 43);
             btnExport.TabIndex = 7;
             btnExport.Text = "Εξαγωγή";
             btnExport.UseVisualStyleBackColor = true;
@@ -166,9 +165,9 @@
             // 
             // btnTTSStop
             // 
-            btnTTSStop.Location = new Point(28, 231);
+            btnTTSStop.Location = new Point(28, 222);
             btnTTSStop.Name = "btnTTSStop";
-            btnTTSStop.Size = new Size(139, 34);
+            btnTTSStop.Size = new Size(148, 43);
             btnTTSStop.TabIndex = 6;
             btnTTSStop.Text = "Διακοπή";
             btnTTSStop.UseVisualStyleBackColor = true;
@@ -176,9 +175,9 @@
             // 
             // btnClearHistory
             // 
-            btnClearHistory.Location = new Point(206, 156);
+            btnClearHistory.Location = new Point(200, 147);
             btnClearHistory.Name = "btnClearHistory";
-            btnClearHistory.Size = new Size(210, 34);
+            btnClearHistory.Size = new Size(216, 43);
             btnClearHistory.TabIndex = 5;
             btnClearHistory.Text = "Εκκαθάριση ιστορικού";
             btnClearHistory.UseVisualStyleBackColor = true;
@@ -186,9 +185,9 @@
             // 
             // btnSlideshow
             // 
-            btnSlideshow.Location = new Point(206, 80);
+            btnSlideshow.Location = new Point(195, 80);
             btnSlideshow.Name = "btnSlideshow";
-            btnSlideshow.Size = new Size(210, 34);
+            btnSlideshow.Size = new Size(221, 43);
             btnSlideshow.TabIndex = 4;
             btnSlideshow.Text = "Προβολή διαφανειών";
             btnSlideshow.UseVisualStyleBackColor = true;
@@ -196,9 +195,9 @@
             // 
             // btnTTSPlay
             // 
-            btnTTSPlay.Location = new Point(28, 156);
+            btnTTSPlay.Location = new Point(28, 147);
             btnTTSPlay.Name = "btnTTSPlay";
-            btnTTSPlay.Size = new Size(139, 34);
+            btnTTSPlay.Size = new Size(148, 43);
             btnTTSPlay.TabIndex = 3;
             btnTTSPlay.Text = "Αναπαραγωγή";
             btnTTSPlay.UseVisualStyleBackColor = true;
@@ -207,9 +206,9 @@
             // lvBeaches
             // 
             lvBeaches.FullRowSelect = true;
-            lvBeaches.Location = new Point(28, 318);
+            lvBeaches.Location = new Point(28, 311);
             lvBeaches.Name = "lvBeaches";
-            lvBeaches.Size = new Size(388, 282);
+            lvBeaches.Size = new Size(388, 367);
             lvBeaches.TabIndex = 2;
             lvBeaches.UseCompatibleStateImageBehavior = false;
             lvBeaches.View = View.Details;
@@ -219,7 +218,7 @@
             // 
             btnSearch.Location = new Point(28, 80);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(139, 32);
+            btnSearch.Size = new Size(148, 43);
             btnSearch.TabIndex = 1;
             btnSearch.Text = "Φύγαμε";
             btnSearch.UseVisualStyleBackColor = true;
@@ -235,10 +234,10 @@
             // 
             // rtbDescription
             // 
-            rtbDescription.Location = new Point(14, 505);
+            rtbDescription.Location = new Point(14, 543);
             rtbDescription.Name = "rtbDescription";
             rtbDescription.ReadOnly = true;
-            rtbDescription.Size = new Size(813, 95);
+            rtbDescription.Size = new Size(923, 117);
             rtbDescription.TabIndex = 3;
             rtbDescription.Text = "";
             rtbDescription.TextChanged += rtbDescription_TextChanged;
@@ -246,7 +245,7 @@
             // lblRegion
             // 
             lblRegion.AutoSize = true;
-            lblRegion.Location = new Point(180, 466);
+            lblRegion.Location = new Point(180, 482);
             lblRegion.Name = "lblRegion";
             lblRegion.Size = new Size(80, 25);
             lblRegion.TabIndex = 2;
@@ -255,7 +254,7 @@
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(14, 466);
+            lblName.Location = new Point(14, 482);
             lblName.Name = "lblName";
             lblName.Size = new Size(151, 25);
             lblName.TabIndex = 1;
@@ -265,11 +264,10 @@
             // 
             pbPreview.Location = new Point(14, 32);
             pbPreview.Name = "pbPreview";
-            pbPreview.Size = new Size(813, 414);
+            pbPreview.Size = new Size(923, 416);
             pbPreview.SizeMode = PictureBoxSizeMode.Zoom;
             pbPreview.TabIndex = 0;
             pbPreview.TabStop = false;
-            pbPreview.Click += pbPreview_Click;
             // 
             // contextMenuStrip
             // 
@@ -281,13 +279,12 @@
             // 
             tmrSlide.Interval = 3000;
             tmrSlide.Tick += tmrSlide_Tick_1;
-
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1348, 661);
+            ClientSize = new Size(1453, 740);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;

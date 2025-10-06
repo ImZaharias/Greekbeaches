@@ -1,43 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Speech.Synthesis;
-using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
+using Windows.Media.SpeechSynthesis;
+using Windows.Media.Playback;
+using Windows.Media.Core;
 
 namespace GreekBeachesGuide.Services
 {
-    internal class TtsService
+    internal static class TtsService
     {
-        private static SpeechSynthesizer _s;
-        public static void Speak(string text)
+        private static SpeechSynthesizer _synth;
+        private static MediaPlayer _player;
+        private static bool _isSpeaking;
+
+        private static void EnsureInit()
         {
-            
-            if (string.IsNullOrWhiteSpace(text))
+            if (_synth != null) return;
+            _synth = new SpeechSynthesizer();
+            _player = new MediaPlayer();
+
+            var stef = SpeechSynthesizer.AllVoices
+                .FirstOrDefault(v => v.DisplayName.Contains("Stefanos", System.StringComparison.OrdinalIgnoreCase));
+            if (stef != null) _synth.Voice = stef;
+            else
             {
-                MessageBox.Show("Δεν υπάρχει κείμενο για ανάγνωση.");
+                var el = SpeechSynthesizer.AllVoices
+                    .FirstOrDefault(v => v.Language.Equals("el-GR", System.StringComparison.OrdinalIgnoreCase));
+                if (el != null) _synth.Voice = el;
+            }
+
+            _player.MediaEnded += (s, e) => { _isSpeaking = false; };
+
+        }
+
+        public static async Task SpeakAsync(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            EnsureInit();
+
+            if (_isSpeaking)
+            {
+                _player.Pause();
+                _player.Source = null;
+                _isSpeaking = false;
                 return;
             }
 
-            Stop();
-            _s = new SpeechSynthesizer { Volume = 100, Rate = 0 };
-
-            // Προσπάθησε να επιλέξεις ελληνική φωνή (αν υπάρχει)
-            var el = _s.GetInstalledVoices()
-                       .FirstOrDefault(v => v.VoiceInfo.Name.Contains("Stefanos"));
-            if (el != null) _s.SelectVoice(el.VoiceInfo.Name);
-            
-
-            // Ρητή γλώσσα -> σωστό word-breaking στα ελληνικά
-            var pb = new PromptBuilder(new CultureInfo("el-GR"));
-            pb.AppendText(text);
-            _s.SpeakAsync(pb);
+            var stream = await _synth.SynthesizeTextToStreamAsync(text);
+            _player.Source = MediaSource.CreateFromStream(stream, stream.ContentType);
+            _player.Play();
+            _isSpeaking = true;
         }
-        public static void Stop()
-        { if (_s != null) { _s.SpeakAsyncCancelAll(); _s.Dispose(); _s = null; } }
 
+        public static void Stop()
+        {
+            if (_player == null) return;
+
+            _player.Pause();          // σταματάει την αναπαραγωγή
+            _player.Source = null;    // αποδεσμεύει το stream
+            _isSpeaking = false;
+        }
     }
 }
+
+
+
+
