@@ -116,13 +116,14 @@
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(209, 34);
+            helpToolStripMenuItem.Size = new Size(270, 34);
             helpToolStripMenuItem.Text = "Υποστήριξη";
+            helpToolStripMenuItem.Click += helpToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(209, 34);
+            aboutToolStripMenuItem.Size = new Size(270, 34);
             aboutToolStripMenuItem.Text = "Σχετικά";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 

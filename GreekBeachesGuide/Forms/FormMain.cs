@@ -164,6 +164,14 @@ namespace GreekBeachesGuide.Forms
             }
         }
 
+        // Help dialog
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dlg = new FormHelp();
+            dlg.StartPosition = FormStartPosition.CenterParent;
+            dlg.ShowDialog(this);
+        }
+
         // About dialog
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
