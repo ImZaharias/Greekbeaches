@@ -11,8 +11,10 @@ using System.Data.SQLite;
 
 namespace GreekBeachesGuide.Forms
 {
+    // Main screen: list/search beaches, preview, TTS, slideshow, export, history
     public partial class FormMain : Form
     {
+        // ---- State ----
         private readonly string _user;
         private readonly string _role;
         private readonly List<Beach> _history = new();
@@ -26,9 +28,9 @@ namespace GreekBeachesGuide.Forms
             InitializeComponent();
             _user = "guest";
             _role = "Visitor";
-            LoadBeaches(string.Empty);
-            SetupMenuByRole();
-            this.FormClosed += (s, e) => Application.Exit();
+            LoadBeaches(string.Empty); // initial load
+            SetupMenuByRole();         // adjust UI by role
+            this.FormClosed += (s, e) => Application.Exit(); // close app when main closes
         }
 
         public FormMain(string user, string role)
@@ -41,20 +43,17 @@ namespace GreekBeachesGuide.Forms
             this.FormClosed += (s, e) => Application.Exit();
         }
 
-        // ---- Role UI ----
+        // ---- Role-based UI toggles ----
         private void SetupMenuByRole()
         {
             bool isVisitor = string.Equals(_role, "Visitor", StringComparison.OrdinalIgnoreCase);
             if (btnClearHistory != null) btnClearHistory.Visible = !isVisitor;
-            // Τα βασικά μενού μένουν ορατά για όλους (Export/History/Help/About/Exit)
             if (historyToolStripMenuItem != null) historyToolStripMenuItem.Visible = !isVisitor;
-
-            // menu
             if (btnExport != null) btnExport.Visible = !isVisitor;
             if (exportToolStripMenuItem != null) exportToolStripMenuItem.Visible = !isVisitor;
         }
 
-        // ---- ListView Columns (μία φορά) ----
+        // ---- ListView column setup (once) ----
         private void EnsureListViewColumns()
         {
             if (_colsInit) return;
@@ -70,7 +69,7 @@ namespace GreekBeachesGuide.Forms
             _colsInit = true;
         }
 
-        // ---- Load data + fill ListView ----
+        // ---- Load data + bind to ListView ----
         private void LoadBeaches(string q)
         {
             try
@@ -90,6 +89,7 @@ namespace GreekBeachesGuide.Forms
 
                 lvBeaches.EndUpdate();
 
+                // Auto-select first and show its preview
                 if (_current.Count > 0)
                 {
                     lvBeaches.Items[0].Selected = true;
@@ -106,7 +106,7 @@ namespace GreekBeachesGuide.Forms
             }
         }
 
-        // ---- Preview panel ----
+        // ---- Preview panel (labels + image + TTS button state) ----
         private void ShowPreview(Beach b)
         {
             if (b == null)
@@ -124,13 +124,14 @@ namespace GreekBeachesGuide.Forms
             rtbDescription.Text = b.Description ?? "";
             btnTTSPlay.Enabled = !string.IsNullOrWhiteSpace(rtbDescription.Text);
 
+            // Load preview image safely (avoid file lock)
             try
             {
                 var full = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, b.ImagePath ?? "");
                 if (File.Exists(full))
                 {
                     using (var img = Image.FromFile(full))
-                        pbPreview.Image = new Bitmap(img); // χωρίς file-lock
+                        pbPreview.Image = new Bitmap(img);
                 }
                 else pbPreview.Image = null;
             }
@@ -139,9 +140,9 @@ namespace GreekBeachesGuide.Forms
 
         // ====== Menu Handlers ======
         private void exportToolStripMenuItem_Click(object sender, EventArgs e) => DoExportSelected();
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
+        // Show recent history for current user
         private void historyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -163,6 +164,7 @@ namespace GreekBeachesGuide.Forms
             }
         }
 
+        // About dialog
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dlg = new FormAbout();
@@ -170,7 +172,9 @@ namespace GreekBeachesGuide.Forms
             dlg.ShowDialog(this);
         }
 
-        // ====== Buttons/Search ======
+        // ====== Buttons / Search ======
+
+        // Open details dialog for selected beach
         private void btnSearch_Click_1(object sender, EventArgs e)
         {
             if (lvBeaches.SelectedItems.Count == 0)
@@ -183,36 +187,35 @@ namespace GreekBeachesGuide.Forms
             using var f = new FormBeachDetails(b, _user);
             f.StartPosition = FormStartPosition.CenterParent;
             f.ShowDialog(this);
-            _history.Add(b);
+            _history.Add(b); // local in-session history
         }
 
+        // Live search (empty or >=2 chars)
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (txtSearch.Text.Length == 0 || txtSearch.Text.Length >= 2)
                 LoadBeaches(txtSearch.Text);
         }
 
+        // TTS controls
         private void btnTTSPlay_Click_1(object sender, EventArgs e) => TtsService.SpeakAsync(rtbDescription.Text);
-
         private void btnTTSStop_Click_1(object sender, EventArgs e) => TtsService.Stop();
 
+        // Start/stop slideshow and sync index with selection
         private void btnSlideshow_Click_1(object sender, EventArgs e)
         {
             if (_current.Count == 0) { MessageBox.Show("Δεν υπάρχουν παραλίες."); return; }
 
-            // Toggle slideshow
             tmrSlide.Enabled = !tmrSlide.Enabled;
-
-            // Update button text
             btnSlideshow.Text = tmrSlide.Enabled ? "Διακοπή προβολής" : "Προβολή διαφανειών";
 
-            // Start from current selection if starting slideshow
             if (tmrSlide.Enabled && lvBeaches.SelectedIndices.Count > 0)
             {
                 _slideIndex = lvBeaches.SelectedIndices[0];
             }
         }
 
+        // Slideshow tick: move to next beach and update UI selection/preview
         private void tmrSlide_Tick_1(object sender, EventArgs e)
         {
             if (_current.Count == 0)
@@ -224,7 +227,6 @@ namespace GreekBeachesGuide.Forms
 
             _slideIndex = (_slideIndex + 1) % _current.Count;
 
-            // Update ListView selection
             lvBeaches.SelectedIndices.Clear();
             lvBeaches.Items[_slideIndex].Selected = true;
             lvBeaches.Items[_slideIndex].EnsureVisible();
@@ -232,10 +234,11 @@ namespace GreekBeachesGuide.Forms
             ShowPreview(_current[_slideIndex]);
         }
 
+        // Clear user's DB history (menu/button)
         private void btnClearHistory_Click(object sender, EventArgs e)
         {
             try
-    {
+            {
                 using (var con = new SQLiteConnection(Db.ConnStr))
                 {
                     con.Open();
@@ -255,6 +258,7 @@ namespace GreekBeachesGuide.Forms
 
         private void btnExport_Click_1(object sender, EventArgs e) => DoExportSelected();
 
+        // Export selected beach info to .txt
         private void DoExportSelected()
         {
             if (lvBeaches.SelectedItems.Count == 0) { MessageBox.Show("Επίλεξε μια παραλία."); return; }
@@ -276,12 +280,13 @@ $@"Όνομα: {b.Name}
         }
 
         // ====== List/Preview events ======
+
+        // Keep preview in sync with selection; update slideshow index if manual
         private void lvBeaches_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lvBeaches.SelectedItems.Count == 0) return;
             var b = (Beach)lvBeaches.SelectedItems[0].Tag;
 
-            // Update slideshow index if manually selecting
             if (!tmrSlide.Enabled)
             {
                 _slideIndex = lvBeaches.SelectedIndices[0];
@@ -290,6 +295,7 @@ $@"Όνομα: {b.Name}
             ShowPreview(b);
         }
 
+        // Clicking the preview image opens the details dialog
         private void pbPreview_Click(object sender, EventArgs e)
         {
             if (lvBeaches.SelectedItems.Count == 0) return;
@@ -297,9 +303,9 @@ $@"Όνομα: {b.Name}
             using var f = new FormBeachDetails(b, _user);
             f.StartPosition = FormStartPosition.CenterParent;
             f.ShowDialog(this);
-           
         }
 
+        // Query last 20 viewed entries for the current user
         private List<(DateTime ViewedAt, string BeachName, string Region)> GetUserHistory()
         {
             var list = new List<(DateTime, string, string)>();
@@ -330,12 +336,12 @@ $@"Όνομα: {b.Name}
             return list;
         }
 
+        // Enable/disable TTS play button based on text presence
         private void rtbDescription_TextChanged(object sender, EventArgs e)
         {
             btnTTSPlay.Enabled = !string.IsNullOrWhiteSpace(rtbDescription.Text);
         }
-
-        
     }
 }
+
 

@@ -6,20 +6,24 @@ using Windows.Media.Core;
 
 namespace GreekBeachesGuide.Services
 {
+    // Simple TTS wrapper using UWP SpeechSynthesizer + MediaPlayer
     internal static class TtsService
     {
-        private static SpeechSynthesizer _synth;
-        private static MediaPlayer _player;
-        private static bool _isSpeaking;
+        private static SpeechSynthesizer _synth; // TTS engine
+        private static MediaPlayer _player;      // Audio output
+        private static bool _isSpeaking;         // Playback flag
 
+        // Lazy init: pick "Stefanos" or any Greek voice (el-GR)
         private static void EnsureInit()
         {
             if (_synth != null) return;
+
             _synth = new SpeechSynthesizer();
             _player = new MediaPlayer();
 
             var stef = SpeechSynthesizer.AllVoices
                 .FirstOrDefault(v => v.DisplayName.Contains("Stefanos", System.StringComparison.OrdinalIgnoreCase));
+
             if (stef != null) _synth.Voice = stef;
             else
             {
@@ -28,10 +32,10 @@ namespace GreekBeachesGuide.Services
                 if (el != null) _synth.Voice = el;
             }
 
-            _player.MediaEnded += (s, e) => { _isSpeaking = false; };
-
+            _player.MediaEnded += (s, e) => _isSpeaking = false; // reset on finish
         }
 
+        // Speak or stop-if-already-speaking (toggle behavior)
         public static async Task SpeakAsync(string text)
         {
             if (string.IsNullOrWhiteSpace(text)) return;
@@ -51,16 +55,17 @@ namespace GreekBeachesGuide.Services
             _isSpeaking = true;
         }
 
+        // Hard stop + release current audio
         public static void Stop()
         {
             if (_player == null) return;
-
-            _player.Pause();          // σταματάει την αναπαραγωγή
-            _player.Source = null;    // αποδεσμεύει το stream
+            _player.Pause();
+            _player.Source = null;
             _isSpeaking = false;
         }
     }
 }
+
 
 
 

@@ -9,12 +9,13 @@ using System.Windows.Forms;
 
 namespace GreekBeachesGuide.Forms
 {
+    // Shows detailed info for a selected beach (image, description, sound)
     public partial class FormBeachDetails : Form
     {
         private Beach _b;
         private readonly string _user;
-        private SoundPlayer _sp; // μία φορά στη φόρμα
-        private bool _isPlaying; // κατάσταση
+        private SoundPlayer _sp;  // Audio player instance
+        private bool _isPlaying;  // Playback state flag
 
         public FormBeachDetails()
         {
@@ -24,39 +25,39 @@ namespace GreekBeachesGuide.Forms
             richTextBox.ReadOnly = true;
         }
 
-
-        // <-- ο παραμετρικός ctor πρέπει να κάνει chaining στο default
+        // Overloaded constructor used when opening from main form
         internal FormBeachDetails(Beach b, string user) : this()
         {
             _b = b;
             _user = user;
-            Bind();
-            AddToHistorySafe();
+            Bind();              // Load UI content
+            AddToHistorySafe();  // Log view into History table
         }
 
+        // Populate controls with beach data
         private void Bind()
         {
             if (_b == null) return;
 
-            // ΜΗΝ γράφεις δύο φορές Text και το πατάς.
             richTextBox.Text = $"{_b.Name} — {_b.Region}"
                              + Environment.NewLine + Environment.NewLine
                              + (_b.Description ?? "");
 
-            // Φόρτωση εικόνας χωρίς file-lock + σωστό πλήρες path
+            // Load image safely (avoid file locking)
             var fullImg = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _b.ImagePath ?? "");
             try
             {
                 if (File.Exists(fullImg))
                 {
                     using (var img = Image.FromFile(fullImg))
-                        pictureBox.Image = new Bitmap(img);   // αποφεύγει κλείδωμα αρχείου
+                        pictureBox.Image = new Bitmap(img);
                 }
                 else pictureBox.Image = null;
             }
             catch { pictureBox.Image = null; }
         }
 
+        // Add record to History table (safe, silent fail)
         private void AddToHistorySafe()
         {
             try
@@ -69,25 +70,25 @@ namespace GreekBeachesGuide.Forms
                 cmd.Parameters.AddWithValue("@b", _b?.Id ?? 0);
                 cmd.ExecuteNonQuery();
             }
-            catch { /* σιωπηλά: δεν χαλάμε τη φόρμα αν λείπει DB */ }
+            catch { /* Ignore if DB not available */ }
         }
 
+        // Play or stop ambient sound (.wav only)
         private void btnSound_Click(object sender, EventArgs e)
         {
             try
             {
                 var full = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Media\waves.wav");
-                
+
                 if (!File.Exists(full))
                 {
                     MessageBox.Show($"Δεν βρέθηκε αρχείο ήχου στο:\n{full}");
                     return;
                 }
 
-                // ΣΗΜΑΝΤΙΚΟ: SoundPlayer παίζει μόνο .wav
                 if (Path.GetExtension(full).Equals(".wav", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Αν παίζει, σταμάτα — αλλιώς ξεκίνα
+                    // Toggle playback state
                     if (_isPlaying)
                     {
                         _sp?.Stop();
@@ -100,7 +101,7 @@ namespace GreekBeachesGuide.Forms
                         _sp.Play();
                         _isPlaying = true;
                         btnSound.Text = "Παύση";
-                    } 
+                    }
                 }
                 else
                 {
@@ -114,4 +115,5 @@ namespace GreekBeachesGuide.Forms
         }
     }
 }
+
 

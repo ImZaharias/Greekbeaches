@@ -5,17 +5,17 @@ namespace GreekBeachesGuide
 {
     internal static class Program
     {
-        [STAThread]
+        [STAThread] // Windows Forms requires STA
         static void Main()
         {
-            Application.EnableVisualStyles();
+            Application.EnableVisualStyles();                 // Modern UI
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Global crash log 
+            // Global exception logging (UI & non-UI threads)
             Application.ThreadException += (s, e) => LogCrash(e.Exception);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => LogCrash(e.ExceptionObject as Exception);
 
-            // ΠΡΩΤΑ: DB init - ΠΡΙΝ ανοίξει οποιαδήποτε φόρμα
+            // DB init before any forms
             try
             {
                 Db.EnsureCreated();
@@ -26,13 +26,14 @@ namespace GreekBeachesGuide
             {
                 MessageBox.Show($"ΚΡΙΣΙΜΟ ΣΦΑΛΜΑ:\n{ex.Message}\n\nStack:\n{ex.StackTrace}",
                     "Σφάλμα DB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Σταμάτα την εφαρμογή
+                return; // Abort if DB failed
             }
 
-            // ΜΕΤΑ: Άνοιξε το Login
+            // Start with Login
             Application.Run(new FormLogin());
         }
 
+        // Append crash info to file and notify user
         static void LogCrash(Exception ex)
         {
             try
@@ -41,7 +42,8 @@ namespace GreekBeachesGuide
                 System.IO.File.AppendAllText(path, $"[{DateTime.Now}] {ex}\r\n\r\n");
                 MessageBox.Show("Σφάλμα. Καταγράφηκε στο DebugLog.txt");
             }
-            catch { }
+            catch { /* ignore logging failures */ }
         }
     }
 }
+

@@ -2,10 +2,13 @@
 
 namespace GreekBeachesGuide.Services
 {
+    // Handles user authentication and creation using SQLite
     internal static class AuthDb
     {
+        // Use same connection string as main DB
         public static string ConnStr => Db.ConnStr;
 
+        // Ensure the Users table exists (for login/registration)
         public static void EnsureUsersTable()
         {
             using var con = new SQLiteConnection(ConnStr);
@@ -23,6 +26,7 @@ namespace GreekBeachesGuide.Services
             cmd.ExecuteNonQuery();
         }
 
+        // Insert new user record (plain-text password for demo purposes)
         public static void CreateUser(string username, string password)
         {
             using var con = new SQLiteConnection(ConnStr);
@@ -31,11 +35,12 @@ namespace GreekBeachesGuide.Services
             using var cmd = new SQLiteCommand(
                 "INSERT INTO Users (Username, Password, Role) VALUES (@u, @p, @r)", con);
             cmd.Parameters.AddWithValue("@u", username);
-            cmd.Parameters.AddWithValue("@p", password); // απλό για demo, χωρίς hash
+            cmd.Parameters.AddWithValue("@p", password); // not hashed - only demo
             cmd.Parameters.AddWithValue("@r", "user");
             cmd.ExecuteNonQuery();
         }
 
+        // Check if a username already exists
         public static bool Exists(string username)
         {
             using var con = new SQLiteConnection(ConnStr);

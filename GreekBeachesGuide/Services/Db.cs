@@ -11,9 +11,11 @@ namespace GreekBeachesGuide.Services
 {
     internal class Db
     {
+        // Physical DB path and SQLite connection string
         public static string DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "beaches.db");
         public static string ConnStr => $"Data Source={DbPath};Version=3;";
 
+        // Ensure DB file/folders exist and required tables are created (idempotent)
         public static void EnsureCreated()
         {
             var dir = Path.GetDirectoryName(DbPath);
@@ -21,10 +23,10 @@ namespace GreekBeachesGuide.Services
             var firstTime = !File.Exists(DbPath);
             if (firstTime) SQLiteConnection.CreateFile(DbPath);
 
-
             using (var con = new SQLiteConnection(ConnStr))
             {
                 con.Open();
+                // Schema creation (runs safely even if tables already exist)
                 using (var cmd = new SQLiteCommand(@"
 CREATE TABLE IF NOT EXISTS Users (
 Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,11 +54,12 @@ ViewedAt TEXT
 );", con))
                 { cmd.ExecuteNonQuery(); }
 
-
+                // Initial seed only on first creation
                 if (firstTime) Seed(con);
             }
         }
 
+        // Insert default users and demo beaches
         private static void Seed(SQLiteConnection con)
         {
             using (var cmd = new SQLiteCommand(@"
@@ -67,7 +70,7 @@ INSERT OR IGNORE INTO Users(Username,Password,Role) VALUES
                 cmd.ExecuteNonQuery();
             }
 
-            // Seed Beaches
+            // Seed Beaches data for initial app experience
             using (var cmd = new SQLiteCommand(@"
 INSERT INTO Beaches (Name,Region,Description,Features,ImagePath,AudioPath,IsTop) VALUES
 ('Ναυάγιο','Ζάκυνθος','Εμβληματική παραλία με ναυάγιο. Κατάλληλη για φωτογραφίες.','θέα, άμμος, instagram','Data/Images/navagio.jpg','Data/Media/waves.wav',1),
@@ -83,9 +86,9 @@ INSERT INTO Beaches (Name,Region,Description,Features,ImagePath,AudioPath,IsTop)
             {
                 cmd.ExecuteNonQuery();
             }
-
         }
 
+        // Full-text search over Name/Region/Features; default order: Top first, then Name
         public static List<Beach> SearchBeaches(string q)
         {
             var list = new List<Beach>();
@@ -95,13 +98,16 @@ INSERT INTO Beaches (Name,Region,Description,Features,ImagePath,AudioPath,IsTop)
                 string sql = string.IsNullOrWhiteSpace(q)
                 ? "SELECT * FROM Beaches ORDER BY IsTop DESC, Name"
                 : "SELECT * FROM Beaches WHERE Name LIKE @q OR Region LIKE @q OR Features LIKE @q ORDER BY IsTop DESC, Name";
+
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
                     if (!string.IsNullOrWhiteSpace(q)) cmd.Parameters.AddWithValue("@q", "%" + q + "%");
+
                     using (var r = cmd.ExecuteReader())
                     {
                         while (r.Read())
                         {
+                            // Map DB row to domain model
                             list.Add(new Beach
                             {
                                 Id = Convert.ToInt32(r["Id"]),
@@ -120,6 +126,7 @@ INSERT INTO Beaches (Name,Region,Description,Features,ImagePath,AudioPath,IsTop)
                 }
             }
             return list;
-        }  
+        }
     }
 }
+

@@ -5,26 +5,29 @@ using System.Windows.Forms;
 
 namespace GreekBeachesGuide.Forms
 {
+    // Handles user login, guest mode, and registration redirection
     public partial class FormLogin : Form
     {
         public FormLogin()
         {
             InitializeComponent();
 
-            // UX niceties
+            // Basic UI setup
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.AcceptButton = btnLogin;  // Enter -> Login
-            // this.CancelButton = btnGuest; // (optional) Esc -> Guest
+            this.AcceptButton = btnLogin;   // Press Enter = Login
+            // this.CancelButton = btnGuest; // Optional: Esc = Guest mode
 
-            // If someone closes the login window directly, exit the app cleanly
+            // Exit application if login window closes
             this.FormClosed += (s, e) => Application.Exit();
         }
 
+        // Login button click handler
         private void btnLogin_Click(object sender, EventArgs e)
         {
             var user = (txtUser.Text ?? "").Trim();
             var pass = (txtPass.Text ?? "").Trim();
 
+            // Validate input
             if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
             {
                 MessageBox.Show("Συμπλήρωσε όνομα και κωδικό.", "Login",
@@ -34,6 +37,7 @@ namespace GreekBeachesGuide.Forms
 
             try
             {
+                // Verify credentials in DB
                 using (var con = new SQLiteConnection(Db.ConnStr))
                 using (var cmd = new SQLiteCommand(
                     "SELECT Role FROM Users WHERE Username=@u AND Password=@p LIMIT 1", con))
@@ -44,17 +48,18 @@ namespace GreekBeachesGuide.Forms
 
                     var role = cmd.ExecuteScalar() as string;
 
+                    // Successful login
                     if (!string.IsNullOrEmpty(role))
                     {
                         var main = new FormMain(user, role);
-                        // When main closes, close login too => no zombie process
-                        main.FormClosed += (s, args) => this.Close();
+                        main.FormClosed += (s, args) => this.Close(); // Clean exit
 
                         this.Hide();
                         main.Show();
                     }
                     else
                     {
+                        // Wrong credentials
                         MessageBox.Show("Λάθος στοιχεία.", "Login",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txtPass.Clear();
@@ -69,6 +74,7 @@ namespace GreekBeachesGuide.Forms
             }
         }
 
+        // Guest mode (no credentials)
         private void btnGuest_Click(object sender, EventArgs e)
         {
             var main = new FormMain("guest", "Visitor");
@@ -77,6 +83,7 @@ namespace GreekBeachesGuide.Forms
             main.Show();
         }
 
+        // Open registration form as modal dialog
         private void btnRegister_Click(object sender, EventArgs e)
         {
             using var f = new FormRegister();
@@ -84,4 +91,5 @@ namespace GreekBeachesGuide.Forms
         }
     }
 }
+
 
