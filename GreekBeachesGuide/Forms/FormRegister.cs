@@ -37,7 +37,7 @@ namespace GreekBeachesGuide.Forms
                 }
 
                 // Create new user
-                AuthDb.CreateUser(u, p);
+                AuthDb.CreateUser(u, p, "user");
                 MessageBox.Show("Ο λογαριασμός δημιουργήθηκε!");
                 this.DialogResult = DialogResult.OK;
                 this.Close(); // Return to previous form
