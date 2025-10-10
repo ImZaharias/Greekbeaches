@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Data;
 
 namespace GreekBeachesGuide.Forms
 {
@@ -30,7 +32,6 @@ namespace GreekBeachesGuide.Forms
             _role = "Visitor";
             LoadBeaches(string.Empty); // initial load
             SetupMenuByRole();         // adjust UI by role
-            this.FormClosed += (s, e) => Application.Exit(); // close app when main closes
         }
 
         public FormMain(string user, string role)
@@ -47,8 +48,8 @@ namespace GreekBeachesGuide.Forms
         private void SetupMenuByRole()
         {
             bool isVisitor = string.Equals(_role, "Visitor", StringComparison.OrdinalIgnoreCase);
-            if (btnClearHistory != null) btnClearHistory.Visible = !isVisitor;
             if (historyToolStripMenuItem != null) historyToolStripMenuItem.Visible = !isVisitor;
+            if (btnClearHistory != null) btnClearHistory.Visible = !isVisitor;
             if (btnExport != null) btnExport.Visible = !isVisitor;
             if (exportToolStripMenuItem != null) exportToolStripMenuItem.Visible = !isVisitor;
         }
@@ -65,6 +66,17 @@ namespace GreekBeachesGuide.Forms
             lvBeaches.Columns.Add("Όνομα", 150);
             lvBeaches.Columns.Add("Περιοχή", 120);
             lvBeaches.Columns.Add("Χαρακτηριστικά", 180);
+
+            lvBeaches.DoubleClick += (s, e) =>
+            {
+                if (lvBeaches.SelectedItems.Count == 0) return;
+
+                var b = (Beach)lvBeaches.SelectedItems[0].Tag;
+                using var f = new FormBeachDetails(b, _user);
+                f.StartPosition = FormStartPosition.CenterParent;
+                f.ShowDialog(this);
+                _history.Add(b);
+            };
 
             _colsInit = true;
         }
@@ -142,8 +154,8 @@ namespace GreekBeachesGuide.Forms
         private void exportToolStripMenuItem_Click(object sender, EventArgs e) => DoExportSelected();
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
-        // Show recent history for current user
-        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        // Clear user's DB history (menu/button)
+        private void btnClearHistory_Click(object sender, EventArgs e)
         {
             try
             {
@@ -242,8 +254,9 @@ namespace GreekBeachesGuide.Forms
             ShowPreview(_current[_slideIndex]);
         }
 
-        // Clear user's DB history (menu/button)
-        private void btnClearHistory_Click(object sender, EventArgs e)
+
+        // Show recent history for current user
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -348,6 +361,16 @@ $@"Όνομα: {b.Name}
         private void rtbDescription_TextChanged(object sender, EventArgs e)
         {
             btnTTSPlay.Enabled = !string.IsNullOrWhiteSpace(rtbDescription.Text);
+        }
+
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var login = new FormLogin())
+            {
+                this.Hide();
+                login.StartPosition = FormStartPosition.CenterScreen;
+                login.ShowDialog(this);   // περιμένει το Login
+            }
         }
     }
 }

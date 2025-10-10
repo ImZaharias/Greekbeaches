@@ -113,6 +113,13 @@ namespace GreekBeachesGuide.Forms
                 MessageBox.Show("Δεν ήταν δυνατή η αναπαραγωγή ήχου.");
             }
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            _sp?.Stop();
+            _sp?.Dispose();
+            base.OnFormClosing(e);
+        }
     }
 }
 

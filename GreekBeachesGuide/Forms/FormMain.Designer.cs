@@ -34,14 +34,14 @@
             exportToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             προβολήToolStripMenuItem = new ToolStripMenuItem();
-            historyToolStripMenuItem = new ToolStripMenuItem();
+            btnClearHistory = new ToolStripMenuItem();
             hpToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             btnExport = new Button();
             btnTTSStop = new Button();
-            btnClearHistory = new Button();
+            historyToolStripMenuItem = new Button();
             btnSlideshow = new Button();
             btnTTSPlay = new Button();
             lvBeaches = new ListView();
@@ -53,6 +53,7 @@
             pbPreview = new PictureBox();
             contextMenuStrip = new ContextMenuStrip(components);
             tmrSlide = new System.Windows.Forms.Timer(components);
+            logoutToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -64,7 +65,7 @@
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, προβολήToolStripMenuItem, hpToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, προβολήToolStripMenuItem, hpToolStripMenuItem, logoutToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Size = new Size(1453, 33);
@@ -94,17 +95,17 @@
             // 
             // προβολήToolStripMenuItem
             // 
-            προβολήToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { historyToolStripMenuItem });
+            προβολήToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { btnClearHistory });
             προβολήToolStripMenuItem.Name = "προβολήToolStripMenuItem";
-            προβολήToolStripMenuItem.Size = new Size(103, 29);
-            προβολήToolStripMenuItem.Text = "Προβολή";
+            προβολήToolStripMenuItem.Size = new Size(99, 29);
+            προβολήToolStripMenuItem.Text = "Ιστορικό";
             // 
-            // historyToolStripMenuItem
+            // btnClearHistory
             // 
-            historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            historyToolStripMenuItem.Size = new Size(185, 34);
-            historyToolStripMenuItem.Text = "Ιστορικό";
-            historyToolStripMenuItem.Click += historyToolStripMenuItem_Click;
+            btnClearHistory.Name = "btnClearHistory";
+            btnClearHistory.Size = new Size(296, 34);
+            btnClearHistory.Text = "Εκκαθάριση ιστορικού";
+            btnClearHistory.Click += historyToolStripMenuItem_Click;
             // 
             // hpToolStripMenuItem
             // 
@@ -116,14 +117,14 @@
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(270, 34);
+            helpToolStripMenuItem.Size = new Size(209, 34);
             helpToolStripMenuItem.Text = "Υποστήριξη";
             helpToolStripMenuItem.Click += helpToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(270, 34);
+            aboutToolStripMenuItem.Size = new Size(209, 34);
             aboutToolStripMenuItem.Text = "Σχετικά";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
@@ -137,7 +138,7 @@
             // 
             splitContainer1.Panel1.Controls.Add(btnExport);
             splitContainer1.Panel1.Controls.Add(btnTTSStop);
-            splitContainer1.Panel1.Controls.Add(btnClearHistory);
+            splitContainer1.Panel1.Controls.Add(historyToolStripMenuItem);
             splitContainer1.Panel1.Controls.Add(btnSlideshow);
             splitContainer1.Panel1.Controls.Add(btnTTSPlay);
             splitContainer1.Panel1.Controls.Add(lvBeaches);
@@ -174,15 +175,15 @@
             btnTTSStop.UseVisualStyleBackColor = true;
             btnTTSStop.Click += btnTTSStop_Click_1;
             // 
-            // btnClearHistory
+            // historyToolStripMenuItem
             // 
-            btnClearHistory.Location = new Point(200, 147);
-            btnClearHistory.Name = "btnClearHistory";
-            btnClearHistory.Size = new Size(216, 43);
-            btnClearHistory.TabIndex = 5;
-            btnClearHistory.Text = "Εκκαθάριση ιστορικού";
-            btnClearHistory.UseVisualStyleBackColor = true;
-            btnClearHistory.Click += btnClearHistory_Click;
+            historyToolStripMenuItem.Location = new Point(200, 147);
+            historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            historyToolStripMenuItem.Size = new Size(216, 43);
+            historyToolStripMenuItem.TabIndex = 5;
+            historyToolStripMenuItem.Text = "Ιστορικό";
+            historyToolStripMenuItem.UseVisualStyleBackColor = true;
+            historyToolStripMenuItem.Click += btnClearHistory_Click;
             // 
             // btnSlideshow
             // 
@@ -281,6 +282,13 @@
             tmrSlide.Interval = 3000;
             tmrSlide.Tick += tmrSlide_Tick_1;
             // 
+            // logoutToolStripMenuItem
+            // 
+            logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            logoutToolStripMenuItem.Size = new Size(226, 29);
+            logoutToolStripMenuItem.Text = "Αποσύνδεση/Επιστροφή";
+            logoutToolStripMenuItem.Click += logoutToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -311,7 +319,7 @@
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem προβολήToolStripMenuItem;
-        private ToolStripMenuItem historyToolStripMenuItem;
+        private ToolStripMenuItem btnClearHistory;
         private ToolStripMenuItem hpToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
@@ -326,9 +334,10 @@
         private PictureBox pbPreview;
         private Button btnExport;
         private Button btnTTSStop;
-        private Button btnClearHistory;
+        private Button historyToolStripMenuItem;
         private Button btnSlideshow;
         private Button btnTTSPlay;
         private System.Windows.Forms.Timer tmrSlide;
+        private ToolStripMenuItem logoutToolStripMenuItem;
     }
 }
