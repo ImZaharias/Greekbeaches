@@ -27,7 +27,7 @@ namespace GreekBeachesGuide.Services
         }
 
         // Insert new user record (plain-text password for demo purposes)
-        public static void CreateUser(string username, string password)
+        public static void CreateUser(string username, string password, string role)
         {
             using var con = new SQLiteConnection(ConnStr);
             con.Open();
@@ -36,7 +36,7 @@ namespace GreekBeachesGuide.Services
                 "INSERT INTO Users (Username, Password, Role) VALUES (@u, @p, @r)", con);
             cmd.Parameters.AddWithValue("@u", username);
             cmd.Parameters.AddWithValue("@p", password); // not hashed - only demo
-            cmd.Parameters.AddWithValue("@r", "user");
+            cmd.Parameters.AddWithValue("@r", role);
             cmd.ExecuteNonQuery();
         }
 
