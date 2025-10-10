@@ -1,0 +1,42 @@
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache/options directory
+.vs/
+
+# Build results
+*.dll
+*.exe
+*.app
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.assets.json
+*.nuget.cache
+
+# Others
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Rider / JetBrains IDEs
+.idea/
+*.iml
+
+# Publish output
+publish/
