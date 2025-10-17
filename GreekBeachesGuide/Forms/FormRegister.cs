@@ -38,7 +38,11 @@ namespace GreekBeachesGuide.Forms
 
                 // Create new user
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 AuthDb.CreateUser(u, p, "user");
+=======
+                AuthDb.CreateUser(u, p, "User");
+>>>>>>> Stashed changes
 =======
                 AuthDb.CreateUser(u, p, "User");
 >>>>>>> Stashed changes
